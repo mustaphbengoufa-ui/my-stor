@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>متجر بسيط</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+    form { display: flex; flex-direction: column; gap: 12px; }
+    input, select, button { padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
+    button { background-color: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>طلب منتج</h2>
+  <form id="orderForm">
+    <input type="text" id="name" placeholder="الاسم الكامل" required>
+    <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+    <input type="text" id="address" placeholder="العنوان" required>
+    <select id="product">
+      <option value="المنتج الأول - $10">المنتج الأول - $10</option>
+      <option value="المنتج الثاني - $20">المنتج الثاني - $20</option>
+    </select>
+    <button type="submit">إرسال الطلب</button>
+  </form>
+
+  <script>
+    const scriptURL ='https://script.google.com/macros/s/AKfycbx5Vb1JpAxs9IVVlYI1hm6KlslqpIPmBIrLZx2JwQXKqD0abgqZ0402jCQT67jQyh4zQA/exec';
+
+    document.getElementById('orderForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        product: document.getElementById('product').value
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        alert('تم إرسال طلبك بنجاح!');
+        document.getElementById('orderForm').reset();
+      })
+      .catch(() => alert('حدث خطأ أثناء الإرسال.'));
+    });
+  </script>
+</body>
+</html>
